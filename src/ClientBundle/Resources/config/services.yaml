@@ -1,0 +1,30 @@
+# Services for DummyDemo Client Bundle
+parameters:
+  dummy_demo_client.partner_id: 0
+  dummy_demo_client.password: ''
+  dummy_demo_client.username: ''
+  dummy_demo_client.uid: ''
+  dummy_demo_client.host: ''
+  dummy_demo_client.sign_callback: ~
+  dummy_demo_client.sign_validator_callback: ~
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  DummyDemo\Client\Api\Configuration:
+    arguments:
+      $partnerId: '%dummy_demo_client.partner_id%'
+      $password: '%dummy_demo_client.password%'
+      $username: '%dummy_demo_client.username%'
+      $uid: '%dummy_demo_client.uid%'
+      $host: '%dummy_demo_client.host%'
+
+  DummyDemo\Client\Api\DummyClient:
+    # will receive Configuration and http client via autowiring
+    public: true
+    arguments:
+      $config: '@DummyDemo\Client\Api\Configuration'
+      $client: '@?dummy_demo_client.http_client'
